@@ -34,12 +34,14 @@ def my_auth_handler(*args, **kwargs):
 
 def submit_temps(temps):
     registry = CollectorRegistry()
+    found = False
     for name, temp in temps.items():
         name = name.replace('28-', '')
         g = Gauge('temperature_{}'.format(name),
                   'Degrees Celsius', registry=registry)
         g.set(temp)
-    else:
+        found = True
+    if not found:
         print("No sensors found")
     try:
         push_to_gateway(
