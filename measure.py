@@ -34,9 +34,20 @@ def submit_temps(temps):
     registry = CollectorRegistry()
     for name, temp in temps.items():
         name = name.replace('28-', '')
-        g = Gauge('temperature_{}'.format(name), 'Degrees Celsius', registry=registry)
+        g = Gauge('temperature_{}'.format(name),
+                  'Degrees Celsius', registry=registry)
         g.set(temp)
-    push_to_gateway(HOST, job='pushgateway', registry=registry, handler=my_auth_handler)
+    try:
+        push_to_gateway(
+            HOST, job='pushgateway',
+            registry=registry, handler=my_auth_handler)
+    except:
+        pass
+
+
+def run():
+    submit_temps(get_temps())
+
 
 if __name__ == "__main__":
-    submit_temps(get_temps())
+    run()
