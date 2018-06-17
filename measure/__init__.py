@@ -39,6 +39,8 @@ def submit_temps(temps):
         g = Gauge('temperature_{}'.format(name),
                   'Degrees Celsius', registry=registry)
         g.set(temp)
+    else:
+        print("No sensors found")
     try:
         push_to_gateway(
             HOST, job='pushgateway',
