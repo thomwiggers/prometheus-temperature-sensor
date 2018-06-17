@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 setup(
     name="prometheus_temp_sensor",
     version="0.1",
-    packages=find_packages(),
+    packages=['measure'],
     entry_points={
         'console_scripts': [
             'tempmon = measure:run',
