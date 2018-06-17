@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import time
+
 from w1 import Manager, Family
 
 from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
@@ -46,7 +48,9 @@ def submit_temps(temps):
 
 
 def run():
-    submit_temps(get_temps())
+    while True:
+        submit_temps(get_temps())
+        time.sleep(30)
 
 
 if __name__ == "__main__":
