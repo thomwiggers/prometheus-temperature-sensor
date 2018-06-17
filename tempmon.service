@@ -1,0 +1,8 @@
+[Unit]
+Description=Submit temperature measurements to prometheus
+After=network.target
+
+[Service]
+PrivateTmp=true
+Type=simple
+ExecStart=/usr/local/bin/tempmon
