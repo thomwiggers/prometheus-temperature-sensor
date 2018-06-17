@@ -6,3 +6,6 @@ After=network.target
 PrivateTmp=true
 Type=simple
 ExecStart=/usr/local/bin/tempmon
+
+[Install]
+WantedBy=multi-user.target
