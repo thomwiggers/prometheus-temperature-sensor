@@ -36,6 +36,7 @@ def register_temps():
         if not found:
             print("No sensors found")
             sys.exit(1)
+    time.sleep(10)
 
 
 def run():
