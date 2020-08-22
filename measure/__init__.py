@@ -22,7 +22,7 @@ def get_temps():
     return temps
 
 
-def register_temps(temps):
+def register_temps():
     registry = CollectorRegistry()
     found = False
     gauges = {}
