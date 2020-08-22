@@ -27,7 +27,6 @@ def register_temps():
     found = False
     gauges = {}
     while True:
-        gauges = {}
         for name, temp in get_temps().items():
             name = name.replace('28-', '')
             if name not in gauges:
