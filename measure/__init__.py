@@ -28,7 +28,7 @@ def register_temps():
     gauges = {}
     while True:
         gauges = {}
-        for name, temp in temps.items():
+        for name, temp in get_temps().items():
             name = name.replace('28-', '')
             if name not in gauges:
                 gauges[name] = Gauge('temperature_{}'.format(name), 'Degrees Celsius')
