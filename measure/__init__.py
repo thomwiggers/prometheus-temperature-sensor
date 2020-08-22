@@ -7,11 +7,6 @@ from w1 import Manager, Family
 from prometheus_client import CollectorRegistry, Gauge, start_http_server
 from prometheus_client.exposition import basic_auth_handler
 
-# Prometheus info
-HOST = 'cocytus:9091'
-USERNAME = ''
-PASSWORD = ''
-
 # temp manager
 manager = Manager()
 
