@@ -4,7 +4,7 @@ import time
 
 from w1 import Manager, Family
 
-from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
+from prometheus_client import CollectorRegistry, Gauge, start_http_server
 from prometheus_client.exposition import basic_auth_handler
 
 # Prometheus info
@@ -26,13 +26,7 @@ def get_temps():
     return temps
 
 
-def my_auth_handler(*args, **kwargs):
-    kwargs['username'] = USERNAME
-    kwargs['password'] = PASSWORD
-    return basic_auth_handler(*args, **kwargs)
-
-
-def submit_temps(temps):
+def register_temps(temps):
     registry = CollectorRegistry()
     found = False
     for name, temp in temps.items():
@@ -52,8 +46,9 @@ def submit_temps(temps):
 
 
 def run():
+    start_http_server(9101)
     while True:
-        submit_temps(get_temps())
+        register_temps(get_temps())
         time.sleep(30)
 
 
