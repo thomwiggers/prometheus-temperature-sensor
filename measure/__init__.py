@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 import time
 
 from w1 import Manager, Family
@@ -24,27 +25,23 @@ def get_temps():
 def register_temps(temps):
     registry = CollectorRegistry()
     found = False
-    for name, temp in temps.items():
-        name = name.replace('28-', '')
-        g = Gauge('temperature_{}'.format(name),
-                  'Degrees Celsius', registry=registry)
-        g.set(temp)
-        found = True
-    if not found:
-        print("No sensors found")
-    try:
-        push_to_gateway(
-            HOST, job='pushgateway',
-            registry=registry, handler=my_auth_handler)
-    except:
-        pass
+    gauges = {}
+    while True:
+        gauges = {}
+        for name, temp in temps.items():
+            name = name.replace('28-', '')
+            if name not in gauges:
+                gauges[name] = Gauge('temperature_{}'.format(name), 'Degrees Celsius')
+            gauges[name].set(temp)
+            found = True
+        if not found:
+            print("No sensors found")
+            sys.exit(1)
 
 
 def run():
     start_http_server(9101)
-    while True:
-        register_temps(get_temps())
-        time.sleep(30)
+    register_temps()
 
 
 if __name__ == "__main__":
