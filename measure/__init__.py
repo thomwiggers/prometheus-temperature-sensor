@@ -26,13 +26,18 @@ def register_temps():
     registry = CollectorRegistry()
     found = False
     gauges = {}
+    previous_values = {}
     while True:
         for name, temp in get_temps().items():
+            found = True
             name = name.replace('28-', '')
             if name not in gauges:
                 gauges[name] = Gauge('temperature_{}'.format(name), 'Degrees Celsius')
+                previous_values[name].set(temp)
+            if abs(previous_values[name] - temp) > 5:
+                # Hide weird spikes
+                continue
             gauges[name].set(temp)
-            found = True
         if not found:
             print("No sensors found")
             sys.exit(1)
